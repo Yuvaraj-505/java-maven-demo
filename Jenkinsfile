@@ -22,15 +22,28 @@ pipeline {
     post {
         always {
             junit 'target/surefire-reports/*.xml'
-            echo 'Test report publishing attempted.'
+            echo 'Pipeline execution completed.'
         }
 
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'SUCCESS: Application built successfully!'
         }
 
         failure {
-            echo 'Pipeline failed. Check the test reports.'
+            echo 'FAILURE: Application build failed!'
+        }
+
+        unstable {
+            echo 'UNSTABLE: Check test results.'
+        }
+
+        changed {
+            echo 'Build status changed!'
+        }
+
+        cleanup {
+            echo 'Cleanup completed!'
         }
     }
+
 }
