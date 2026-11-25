@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    options {
+        timestamps()
+        timeout(time: 15, unit: 'MINUTES')
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
     tools {
         maven 'Maven-3.9'
     }
@@ -13,6 +20,11 @@ pipeline {
         }
 
         stage('Archive Artifact') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS'
+                }
+            }
             steps {
                 archiveArtifacts artifacts: 'target/*.jar'
             }
