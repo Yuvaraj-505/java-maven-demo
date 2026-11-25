@@ -1,5 +1,4 @@
 pipeline {
-
     agent any
 
     tools {
@@ -7,16 +6,9 @@ pipeline {
     }
 
     stages {
-
         stage('Build and Test') {
             steps {
                 sh 'mvn clean package'
-            }
-        }
-
-        stage('Publish Test Results') {
-            steps {
-                junit 'target/surefire-reports/*.xml'
             }
         }
 
@@ -25,20 +17,20 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar'
             }
         }
-
     }
 
     post {
+        always {
+            junit 'target/surefire-reports/*.xml'
+            echo 'Test report publishing attempted.'
+        }
+
         success {
-            echo 'Maven build successful!'
+            echo 'Pipeline completed successfully!'
         }
 
         failure {
-            echo 'Maven build failed!'
-        }
-
-        always {
-            echo 'Pipeline completed.'
+            echo 'Pipeline failed. Check the test reports.'
         }
     }
 }
