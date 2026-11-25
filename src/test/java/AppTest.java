@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         @Test
         void testGreeting() {
 
-            assertEquals(2, 1 + 1);
+            assertEquals(5, 1 + 1);
 
         }
 
