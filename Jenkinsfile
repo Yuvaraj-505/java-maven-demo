@@ -8,33 +8,15 @@ pipeline {
 
     stages {
 
-        stage('Verify Maven') {
+        stage('Build and Test') {
             steps {
-                sh 'mvn -version'
-            }
-        }
-
-        stage('Compile') {
-            steps {
-                sh 'mvn clean compile'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+                sh 'mvn clean package'
             }
         }
 
         stage('Publish Test Results') {
             steps {
                 junit 'target/surefire-reports/*.xml'
-            }
-        }
-
-        stage('Package') {
-            steps {
-                sh 'mvn package'
             }
         }
 
